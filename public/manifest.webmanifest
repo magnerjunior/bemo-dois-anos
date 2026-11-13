@@ -1,0 +1,16 @@
+{
+  "name": "Bê & Mô — Dois anos de nós",
+  "short_name": "Bê & Mô",
+  "description": "Nosso álbum encantado — 15 de novembro de 2026",
+  "id": "/?album=1",
+  "start_url": "/?album=1",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#101225",
+  "theme_color": "#101225",
+  "icons": [
+    {"src":"/icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
+    {"src":"/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+  ]
+}

@@ -1,0 +1,50 @@
+import { chromium, expect } from '@playwright/test'
+
+const browser = await chromium.launch()
+try {
+ for (const width of [390,800]) {
+  const page = await browser.newPage({hasTouch:true,viewport:{width,height:width===390?844:1280}})
+  await page.goto(process.env.ALBUM_URL || 'http://127.0.0.1:5173/#album')
+  const cover=page.getByRole('button',{name:'Abrir o álbum Bê e Mô'})
+  const home=page.getByRole('button',{name:'Voltar à declaração'})
+  const picker=page.getByRole('combobox',{name:'Ir para a página'})
+  const active=page.locator('.page-display[data-page]:not([inert]):not([hidden])')
+  await expect(home).toBeVisible()
+  await cover.tap()
+  await expect(home).toHaveCount(0)
+  await expect(active).toHaveAttribute('data-page','1')
+  const touch=await page.context().newCDPSession(page)
+  const step=width===390?30:46
+  async function swipe(x,y,dx,dy=0) {
+   await touch.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x,y}]})
+   await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+dx*.45,y:y+dy*.45}]})
+   await touch.send('Input.dispatchTouchEvent',{type:'touchMove',touchPoints:[{x:x+dx,y:y+dy}]})
+   await touch.send('Input.dispatchTouchEvent',{type:'touchEnd',touchPoints:[]})
+  }
+  await swipe(width/2,300,0,55)
+  await expect(active).toHaveAttribute('data-page','1')
+  await swipe(width/2,300,-step)
+  await swipe(width/2,300,-step)
+  await expect(active).toHaveAttribute('data-page','3')
+  await swipe(width/2,300,step)
+  await expect(active).toHaveAttribute('data-page','2')
+  await picker.selectOption('8')
+  await expect(active).toHaveAttribute('data-page','8')
+  const photo=active.locator('.polaroid-clickable').first()
+  const p=await photo.boundingBox()
+  await swipe(p.x+p.width*.58,p.y+p.height/2,-step)
+  await expect(active).toHaveAttribute('data-page','9')
+  await expect(page.getByRole('dialog')).toHaveCount(0)
+  await picker.selectOption('8')
+  await photo.tap()
+  await expect(page.getByRole('dialog')).toBeVisible()
+  await page.getByRole('button',{name:'Fechar foto'}).tap()
+  await page.getByRole('button',{name:'Fechar o livro',exact:true}).tap()
+  await expect(home).toBeVisible()
+  await home.tap()
+  await expect(page.getByRole('heading',{name:/Gabriella/})).toBeVisible()
+  expect(new URL(page.url()).hash).toBe('')
+  console.log(width,'swipes, photo tap and return to the declaration passed')
+  await page.close()
+ }
+}finally{await browser.close()}

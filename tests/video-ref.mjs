@@ -1,0 +1,1 @@
+import {chromium} from '@playwright/test';const b=await chromium.launch();const p=await b.newPage();await p.goto('file:///C:/Users/Usu%C3%A1rio/Downloads/1000745233.mp4');await p.locator('video').evaluate(async v=>{v.currentTime=3;await new Promise(r=>v.addEventListener('seeked',r,{once:true}));v.pause()});await p.screenshot({path:'artifacts/reference-turn.png'});await b.close();

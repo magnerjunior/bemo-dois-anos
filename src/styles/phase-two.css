@@ -1,0 +1,179 @@
+/* Small wood-and-brass controls for the objects inside the album. */
+.scene-page .rustic-action {
+  color:#fff0d3;
+  background:linear-gradient(#795743,#4a3029),url('/textures/leather.jpg');
+  border:1px solid #c5a370;
+  border-radius:5px;
+  box-shadow:inset 0 1px #f8d79b45,0 2px 4px #23151455;
+}
+.scene-page .color-switch { align-self:center; min-height:30px; padding:5px 10px; }
+.envelope .wax-seal { top:31%; left:44%; width:12%; font-size:2.4cqw; }
+.envelope .envelope-address { bottom:8%; color:#5e3b2f; }
+.envelope-front::before {
+  content:'';
+  position:absolute;
+  inset:7px;
+  border:1px solid #9e795e70;
+  outline:1px solid #fff1c880;
+  outline-offset:-3px;
+  pointer-events:none;
+}
+.travel-ticket .ticket-route { display:inline-flex; flex-direction:column; align-items:center; gap:2px; }
+.travel-ticket .ticket-route small { font:700 clamp(8px,2cqw,14px)/1 Arial,sans-serif; white-space:nowrap; letter-spacing:.04em; }
+
+.envelope .envelope-ornament { position:absolute;left:5%;bottom:9%;height:52%;width:15%;z-index:5;color:#936d54;opacity:.58; }
+.page-display:not([inert]) .scene-stars .local-stars i { animation:chapterStars 2.8s ease-in-out both; }
+@keyframes chapterStars { 0%{scale:.55} 36%{scale:1.5} 100%{scale:1} }
+
+/* The clock is set into a continuation of the tower's masonry. */
+.tower-clock-wall {
+  width:78%;
+  flex:none;
+  display:grid;
+  place-items:center;
+  padding:1.5% 0;
+  border-inline:5px double #a98d5e;
+  background:repeating-linear-gradient(0deg,transparent 0 12px,#896c4829 12px 13px),linear-gradient(90deg,#b39a71,#dfcca4 12%,#eadbb9 50%,#c1a881 90%,#a48a63);
+  box-shadow:inset 5px 0 7px #f6e8bf66;
+}
+.tower-clock-wall .tower-clock { width:62%; margin:0; }
+.tower-bell > span { display:grid; place-items:center; transform-origin:50% 22%; }
+.tower-bell > span svg { width:100%; height:auto; }
+.clock-hand.hand-second { background:#9c563b; width:1px; left:50%; height:42%; }
+
+/* Illumination follows each cord and lights only the photographs beneath it. */
+.scene-journey .clothesline::after { content:none; }
+.scene-journey .fairy-top { top:7%; }
+.scene-journey .fairy-bottom { top:55%; }
+.scene-journey .fairy-lights { pointer-events:none; z-index:1; }
+.scene-journey .fairy-lights i {
+  width:5px;height:6px; background:#ffdfa3;
+  box-shadow:0 0 7px 2px #ffc96b9c;
+  animation:journeyBulb .33s ease-out both;
+  animation-delay:calc(var(--light-index)*.15s);
+}
+.page-display:not([inert]) .scene-journey .hanging-photo {
+  animation:journeyExposure .73s ease-out both;
+  animation-delay:calc((var(--order) + .25) * .35s);
+}
+@keyframes journeyBulb { from{opacity:.15} to{opacity:1} }
+@keyframes journeyExposure { from{filter:brightness(.63)} to{filter:brightness(1)} }
+.scene-journey .hanging-photo figcaption {
+  color:#51352f;
+  font-size:clamp(11px,2.75cqw,19px);
+  font-weight:700;
+  line-height:1.12;
+  white-space:normal;
+}
+.lightbox-card > .polaroid figcaption {
+  color:#51352f;
+  font-size:clamp(17px,3.3vmin,26px);
+  line-height:1.2;
+  white-space:normal;
+}
+.lightbox-card.lightbox-with-note {
+  display:flex; flex-direction:column; align-items:center; gap:10px;
+  overflow:auto; padding:8px 12px; max-width:min(86vw,560px);
+}
+.lightbox-with-note > .polaroid { height:min(58dvh,600px); padding:7px; transform:rotate(-1deg); }
+.lightbox-with-note > .polaroid .polaroid-photo { height:100%; }
+.enlarged-memory-note {
+  padding:10px 17px; color:#543c33; background:#f5e6c6 url('/textures/paper.jpg') center/cover;
+  text-align:center; font:clamp(19px,4vmin,28px)/1.15 var(--script);
+}
+.memory-back button { padding:3px; white-space:nowrap; }
+
+/* Booth sequence: backlit fabric, then two straight strips from one slot. */
+.scene-booth .booth-interior { top:16%;bottom:13%;left:5%;right:5%;width:auto;overflow:hidden; }
+.scene-booth .booth-print-slot {
+  position:absolute;left:4%;right:4%;top:0;height:10px;z-index:4;
+  background:#27191a;border:2px ridge #aa8857;border-radius:4px;
+}
+.scene-booth .photo-strips {
+  top:10px;bottom:0;height:auto;padding:0 3% 2%;gap:5%;
+  opacity:1;transform:none;transition:none;align-items:stretch;
+}
+.scene-booth .booth-stage .photostrip {
+  width:46%;height:100%;opacity:1;transform:none;translate:none;rotate:none;
+  animation:none;
+}
+.scene-booth .booth-stage.booth-printing .photostrip {
+  animation:boothPrint 1.38s .62s cubic-bezier(.22,.66,.52,1) both;
+}
+@keyframes boothPrint { from{transform:translateY(-100%)} to{transform:translateY(0)} }
+.scene-booth .curtain { bottom:12%; transition:transform .68s cubic-bezier(.25,.7,.4,1); }
+.scene-booth .booth-exposure {
+  position:absolute;z-index:6;top:16%;bottom:13%;left:1%;right:1%;
+  display:grid;place-items:end center;overflow:hidden;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#cb7d6555,#ffe1a955 9%,#4e22253d 18%),radial-gradient(ellipse at 50% 44%,#ffe6a9a3,transparent 74%);
+  visibility:hidden;
+}
+.scene-booth .booth-capturing .booth-exposure {
+  visibility:visible;animation:boothExposure .34s linear 3 both;
+}
+.scene-booth .booth-exposure img {
+  width:74%;height:92%;object-fit:contain;object-position:center bottom;
+  opacity:.87;filter:blur(.65px) sepia(.25);transform:translateY(2%);
+}
+@keyframes boothExposure {
+  0%,100%{opacity:0}
+  12%{opacity:.98}
+  37%{opacity:.67}
+  75%{opacity:0}
+}
+.scene-booth .booth-bottom { height:12%;gap:6px; }
+.scene-booth .booth-bottom .booth-button { padding:4px 7px;font:600 clamp(8px,2.45cqw,12px)/1.15 Arial,sans-serif;gap:4px; }
+.scene-booth .booth-bottom .booth-button:disabled { opacity:.75; }
+
+/* Beam radius and lock hardware. */
+.scene-lamp .dark-layer {
+  background:radial-gradient(circle clamp(29.04px,6.6cqw,50.16px) at var(--flash-x,20%) var(--flash-y,85%),#02050a00 0,#02050a35 45%,#02050aff 100%);
+}
+.bridge-lock-post {
+  position:absolute;z-index:2;left:48.7%;top:37%;width:2.1%;height:30%;
+  background:linear-gradient(90deg,#25292b,#969082 36%,#605d55 63%,#28292a);
+  border-radius:3px;box-shadow:1px 2px 4px #17161b88;
+}
+.river-picture .heart-lock { transform:none; }
+.river-picture .heart-lock::before { left:29%; }
+
+/* A right hand beside the hidden photograph. */
+.ring-game { display:grid;grid-template-columns:1fr 1fr;align-items:center;column-gap:5%;row-gap:4px;width:100%; }
+.ring-game .rings-photo { width:100%;margin:0;justify-self:start;transform:rotate(-3deg); }
+.ring-photo-back {
+  aspect-ratio:3/4;display:grid;place-items:center;
+  background:#dbc59a url('/textures/paper.jpg') center/cover;color:#95674d;
+  border:5px double #ab835e;box-shadow:3px 6px 8px #60433544;
+  font:700 clamp(18px,5cqw,36px) var(--script);
+}
+.ring-board { position:relative;width:100%;aspect-ratio:180/220;touch-action:none; }
+.ring-board svg { display:block;width:100%;height:100%; }
+/* The back arc is behind the finger, with only the gold front band across it. */
+.ring-knuckles { fill:none;stroke:#a86f58;stroke-width:1.4;stroke-linecap:round;opacity:.65; }
+.ring-finger,.game-ring {
+  position:absolute;transform:translate(-50%,-50%);
+  padding:0;border:none;background:transparent;
+}
+.ring-finger { width:14%;height:15%;border-radius:50%; }
+.ring-finger:disabled { opacity:1; }
+.game-ring { z-index:2;touch-action:none;cursor:grab;width:23%;height:12%; }
+.game-ring:active { cursor:grabbing; }
+.game-ring:disabled { visibility:hidden; }
+.ring-band { transform-origin:0 0; }
+.ring-sliding { animation:ringSlide .78s cubic-bezier(.24,.65,.26,1) both; }
+@keyframes ringSlide {
+  0% { transform:translate(var(--ring-from-x),var(--ring-from-y)); }
+  25% { transform:translate(var(--ring-tip-x),var(--ring-tip-y)) scale(1.08,1.14); }
+  81% { transform:translate(var(--ring-seat-x),calc(var(--ring-seat-y) - 3px)) scale(.94,.67); }
+  100% { transform:translate(var(--ring-seat-x),var(--ring-seat-y)) scale(.94,.67); }
+}
+.ring-band.ring-worn { transform:translate(var(--ring-seat-x),var(--ring-seat-y)) scale(.94,.67)!important; }
+.ring-game .ring-message { grid-column:1/-1;text-align:center;font:600 clamp(9px,2.75cqw,16px)/1.2 var(--serif); }
+.ring-revealed { animation:ringReveal .78s ease-out both; }
+@keyframes ringReveal {
+  0%{rotate:-9deg;opacity:.3} 30%{rotate:6deg} 58%{rotate:-5deg} 80%{rotate:2deg} 100%{rotate:0deg;opacity:1}
+}
+@media (prefers-reduced-motion:reduce) {
+  .page-display:not([inert]) .scene-journey .hanging-photo,.scene-journey .fairy-lights i { animation:none; }
+  .scene-booth .booth-stage.booth-printing .photostrip { animation:none; }
+}

@@ -1,0 +1,25 @@
+BÊ & MÔ — COMO COLOCAR A MÚSICA FINAL
+=====================================
+
+Coloque NESTA PASTA o arquivo MP3 da música "Farol das Estrelas".
+
+O nome EXATO deve ser:
+
+    musica-teclado.mp3
+
+Caminho completo dentro do projeto:
+    public/audio/musica-teclado.mp3
+
+IMPORTANTE:
+- O arquivo não está incluído no ZIP: você precisa adicionar o MP3 que já tem.
+- A música só começa quando a Gabriella clica em "Ouvir nossa próxima melodia" na página 18.
+- O MP3 toca até o final, sem corte e sem repetição automática.
+- O livro continua aberto durante a reprodução.
+- A duração e a barra de progresso aparecem depois que o áudio carrega.
+- Se não houver som, confira se o arquivo tem o nome indicado, se o volume está alto e se o aparelho está no modo silencioso.
+- Ao enviar/publicar o projeto, confira que possui permissão para utilizar e disponibilizar a gravação.
+
+Para testar:
+1. Copie seu MP3 para public/audio/
+2. Execute npm install e npm run dev (se ainda não instalou o projeto)
+3. Abra a página 18 e toque no botão da música.

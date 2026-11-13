@@ -1,0 +1,72 @@
+BÊ & MÔ — GUIA DAS 24 FOTOGRAFIAS
+================================
+
+Coloque exatamente 24 fotografias NESTA PASTA (public/fotos/), nomeadas
+foto-01.jpg, foto-02.jpg, ... foto-24.jpg.
+
+Você pode usar as extensões .jpg, .jpeg, .png ou .webp, mantendo o nome
+"foto-XX". Exemplo: foto-01.webp ou foto-01.jpg.
+
+Você NÃO precisa cortar todas as imagens. O álbum encaixa imagens no
+formato de retrato 3:4 automaticamente, usando centralização e corte:
+- Foto quadrada: corta parte das laterais.
+- Foto vertical tipo story: corta em cima e embaixo.
+- Foto horizontal: corta mais nas laterais.
+- Use originais de boa qualidade; idealmente 900x1200 pixels ou mais.
+
+Se um rosto ficar cortado, procure no CSS a classe .polaroid-photo img,
+ou ajuste --photo-position para a foto específica. A opção mais fácil
+é reenquadrar a foto antes de copiar para a pasta.
+
+MAPA DAS FOTOS:
+
+foto-01 — Primeiro encontro / reencontro de vocês
+    Uso: página 04 — Quando o mundo ganhou cor
+
+SEIS FOTOS — VARAL DA NOSSA JORNADA (página 08):
+foto-02 — Aniversário de 19 anos em Paraopeba
+foto-03 — Primeiro Dia dos Namorados juntos
+foto-04 — Primeira foto no meu Golzinho
+foto-05 — Primeira Umadecamp juntos
+foto-06 — Foto do dia 15/11/2025 (primeiro aniversário de namoro)
+foto-07 — Viagem para Jales, São Paulo
+
+SEIS FOTOS — NOSSO MURAL (página 09):
+foto-08 — Presente do primeiro aniversário de namoro
+foto-09 — 23/12/2025, Gabriella de cabelão e Magner de barba
+foto-10 — Primeira feira de Buritizeiro
+foto-11 — Foto de vocês juntos em um casamento (sem citar qual)
+foto-12 — Segunda Umadecamp juntos
+foto-13 — Foto de 7 de setembro de 2026
+
+SEIS FOTOS — CABINE (página 11; duas tiras de três fotos):
+TIRA ESQUERDA:
+foto-14 — Foto brincando de emo
+foto-15 — Foto pescando
+foto-16 — Gabriella sozinha, muito linda
+TIRA DIREITA:
+foto-17 — Foto dos dois no rio à noite
+foto-18 — Foto de Magner só de cavanhaque após tirar a barba
+foto-19 — Foto de vocês na conveniência
+
+FOTOS DE CENAS ESPECIAIS:
+foto-20 — Casquinhas de baunilha com cobertura de creme de avelã
+    Uso: página 13 — As pequenas coisas
+foto-21 — Gabriella sozinha, com reflexo que parece uma coroa
+    Uso: página 14 — Você é luz (abajur)
+foto-22 — Foto de vocês mostrando as alianças
+    Uso: página 16 — Minha escolha
+foto-23 — Última foto juntos à beira do rio
+    Uso: página 17 — Todos os amanhãs
+foto-24 — Gabriella tocando flauta
+    Uso: página 18 — Nossa próxima melodia
+
+A CÂMERA INSTANTÂNEA (página 12) reutiliza as fotos 04, 11 e 19.
+Não é necessário colocar outras três fotos.
+
+OBSERVAÇÕES:
+- Se alguma foto estiver ausente, aparece uma arte provisória numerada.
+- Você pode substituir as imagens com o site rodando e atualizar o navegador.
+- A ordem pode ser alterada depois no src/data/album.js.
+- Fotos removidas conforme sua última decisão: caminhada cedo, foto na rede,
+  Barra do Guaicuí, segunda foto no carro, formatura de Paraopeba e moto.

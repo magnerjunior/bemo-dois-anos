@@ -1,0 +1,199 @@
+/* Layers along the fore edge and the fold remain visible as the leaf turns. */
+.book-shell{transform:rotateX(6deg) rotateY(-10deg) rotateZ(-1.5deg) scale(.95)}
+.book-shell .book-thickness-back{
+ background:linear-gradient(90deg,#75533750,transparent 24%,#97775a24 77%,#6c4d383e),repeating-linear-gradient(1deg,#b2956e 0 .7px,#e9dbbe .9px 2px,#d7c39e 2.3px 3.5px);
+ border-bottom:5px solid #243742;
+ box-shadow:inset 0 -2px 0 #caaa7655,0 9px 17px #08090888;
+}
+.book-shell .book-thickness-middle{border-bottom:1px solid #f9ead1aa}
+.book-shell .book-spine{
+ background:linear-gradient(90deg,#0c1923cc,#52718466 39%,#0e1d29aa 80%),url('/textures/leather.jpg') center/160px;
+ border-left:1px solid #b99d6766;
+}
+.book-gutter{
+ position:absolute;z-index:5;pointer-events:none;top:0;bottom:0;left:50%;width:30px;
+ transform:translateX(-50%);
+ background:linear-gradient(90deg,transparent,#563b2224 34%,#231b2450 49%,#f6e0aa38 53%,transparent);
+}
+.book-cover .illustrated-cover{
+ box-shadow:inset 12px 0 16px #071522aa,inset 0 1px 0 #f5deb077,inset -3px -3px 0 #111a2688;
+}
+.navigation .nav-btn,.navigation .nav-close,.app-header .header-right button{
+ min-height:44px;min-width:44px;touch-action:manipulation;
+}
+.app-header{height:48px;flex-basis:48px}
+.app-header .header-right{gap:8px}
+.app-header .floating-music{
+ position:static;transform:none;color:#e4c89b;
+}
+.album-loading{height:100%;display:grid;place-items:center;background:#22262a;color:#efd7b3;font:24px var(--serif)}
+.book-cover:focus-visible{outline-offset:2px}
+
+
+/* Keep the framing on the paper, outside the photograph itself. */
+.polaroid-photo img,.cover-portrait>img{object-fit:contain}
+.cover-portrait{
+ top:23%;left:30%;width:40%;height:39%;
+ border-radius:5px;
+ background:#132333;
+ padding:4px;
+}
+.cover-portrait .polaroid,.cover-portrait .polaroid-photo{background:transparent;box-shadow:none}
+.room-wall-art,.room-wall-art .polaroid{border-radius:5px}
+.welcome-photo .polaroid-photo{aspect-ratio:7/10;background:#f9eed8}
+.hanging-photo .polaroid-photo,.board-picture .polaroid-photo,
+.photostrip .polaroid-photo,.instant-print .polaroid-photo{background:#e6d8bc}
+.room-window .polaroid-photo,.room-extra-frame .polaroid-photo,
+.room-wall-art .polaroid-photo{background:#242931}
+
+/* Icon controls keep a generous touch target without a visible frame. */
+.navigation .nav-btn,.navigation .nav-close,.app-header .header-right button{
+ width:44px;padding:0;flex:0 0 44px;
+ border:0;background:transparent;box-shadow:none;border-radius:6px;
+}
+.navigation .nav-btn:not(:disabled):hover,.navigation .nav-close:not(:disabled):hover,
+.app-header .header-right button:hover{background:transparent;color:#fff1d5}
+.page-picker{
+ display:inline-flex;align-items:center;justify-content:center;gap:4px;
+ position:relative;min-height:28px;padding:0 6px;border-radius:4px;
+ color:#e5d5bd;white-space:nowrap;
+}
+.page-picker select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
+.page-picker:focus-within{outline:2px solid #dfb56d;outline-offset:2px}
+.page-picker:has(select:disabled){opacity:.65}
+
+.book-area{touch-action:pan-y}
+.app-header .back-to-welcome{
+ width:44px;height:44px;margin-inline-end:auto;padding:0;
+ display:grid;place-items:center;background:none;border:0;
+ border-radius:6px;color:#e5d5bd;touch-action:manipulation;
+}
+.app-header .back-to-welcome:hover{color:#fff1d5}
+/* Scrollable content inside the book still accepts a horizontal page gesture. */
+:where(.book-area .scene-page, .book-area .scene-page *){touch-action:pan-y}
+
+/* A single double-sided surface keeps the art continuous throughout the turn. */
+.turning-leaf {
+ position:absolute;inset:0;
+ transform-origin:left center;transform-style:preserve-3d;
+ will-change:transform;pointer-events:none;
+}
+.turning-face {
+ position:absolute;inset:0;
+ overflow:hidden;backface-visibility:hidden;
+ -webkit-backface-visibility:hidden;
+ background:#eddfc5 url('/textures/paper.jpg') center/cover;
+}
+.turning-face-front { transform:translateZ(.4px); border-radius:0 6px 6px 0; }
+.turning-face-back { transform:rotateY(180deg) translateZ(.4px); border-radius:6px 0 0 6px; }
+.turning-face .page-display {
+ inset:0;width:100%;height:100%;
+ box-shadow:none;border-radius:inherit;
+}
+.turning-face .hanging-photo { filter:none; }
+.turning-face .scene-page * { animation-play-state:paused; }
+.turning-shade {
+ position:absolute;inset:0;
+ background:linear-gradient(90deg,#35261c66,transparent 46%,#50382145);
+ opacity:0;pointer-events:none;
+}
+.turning-face-back .turning-shade {
+ background:linear-gradient(90deg,#5038214d,transparent 54%,#35261c66);
+}
+
+/* A shallow roll at the fore edge, visible even while the album is resting. */
+.spread-open .paper-window .page-display[data-page]{
+ border-radius:1.5% 1.2% .85% 1.1% / .65% .85% .65% .85%;
+}
+.spread-open .page-display[data-page]::after{
+ content:'';position:absolute;inset:0;pointer-events:none;border-radius:inherit;
+ box-shadow:inset -5px 0 9px #84634132,inset 0 1px #fff5;
+}
+.turning-face .turning-shade{
+ background:linear-gradient(90deg,#25191067,transparent 24%,#fff3cb42 var(--fold-glint,50%),transparent 79%,#39251141);
+}
+.turning-face-back .turning-shade{
+ background:linear-gradient(270deg,#25191067,transparent 24%,#fff3cb42 var(--fold-glint,50%),transparent 79%,#39251141);
+}
+
+.scene-camera{
+ isolation:isolate;
+ background:radial-gradient(ellipse at 58% 48%,#43382c,#241b1b 84%);
+}
+.camera-tabletop,.camera-projector-light{position:absolute;inset:0;z-index:-1;pointer-events:none}
+.camera-tabletop{
+ background:
+  linear-gradient(180deg,#171217e8 0%,#251d21bf 20%,transparent 45%,#28181066 100%),
+  url('/textures/desk-noise.jpg') center/auto 46%,
+  repeating-linear-gradient(178deg,#5d3625 0 9%,#794c32 9.3% 18%,#49291d 18.3% 18.65%,#6e412b 19% 30%);
+ background-blend-mode:normal,soft-light,normal;
+}
+.camera-projector-light{
+ background:
+  radial-gradient(ellipse 64% 36% at 58% 71%,#ffce84ae,transparent 85%),
+  conic-gradient(from 146deg at 92% 8%,transparent 0deg,#f8be7452 12deg,#ffda9360 27deg,transparent 44deg);
+ mix-blend-mode:screen;
+}
+.scene-camera .instant-output{filter:drop-shadow(2px 5px 4px #26140e70)}
+.scene-camera .instant-print{box-shadow:2px 4px 6px #28140c65}
+
+.scene-camera .instant-print { min-height:0; gap:3px; padding:4px 4px 5px; }
+.scene-camera .instant-print .polaroid { flex:1 1 0; min-height:0; height:auto; }
+.scene-camera .instant-print > span {
+ flex:0 0 auto; line-height:1.2; white-space:nowrap;
+ font-size:clamp(9px,2.7cqw,15px); color:#63434a;
+}
+
+.illustrated-names { left:9%;right:9%;font-size:7.5cqw; }
+.illustrated-subtitle { font-size:5.8cqw; }
+.illustrated-date { font-size:clamp(8px,2.25cqw,13px); }
+.book-shell:not(.spread-open) { transform:rotateX(8deg) rotateY(-13deg) rotateZ(-2deg) scale(.95); }
+.book-cover { touch-action:pan-y; }
+.cover-page-edge { display:none; }
+.book-shell:not(.spread-open) .cover-page-edge {
+ display:block;position:absolute;top:2%;bottom:-9px;left:74.6%;width:9px;
+ transform:translateZ(-9px);
+ background:repeating-linear-gradient(90deg,#c8ae83 0 1px,#eee1c5 2px 3px);
+ border-right:2px solid #192933;border-radius:0 3px 5px 0;
+ pointer-events:none;
+}
+.scene-3am .late-hour {
+ align-self:flex-end;margin:0 3% 0 0;color:#e5c498;
+ font:600 clamp(10px,3.1cqw,18px) Arial,sans-serif;letter-spacing:.12em;
+}
+.scene-3am .three-layout { gap:2cqh; }
+.scene-love-desk .reason-card strong { position:relative;z-index:1;align-self:center;text-align:center; }
+.scene-love-desk .reason-card { padding-block:7px; justify-content:center; }
+.scene-love-desk .reason-card.expanded { gap:3px; }
+.scene-booth .booth-stage.booth-printing .photostrip { animation-duration:1.65s; }
+.details-photos { width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3%;align-items:center; }
+.details-photos .polaroid { padding:4px 4px 8px; }
+.details-photos .polaroid:nth-child(1) { --photo-tilt:-3deg; }
+.details-photos .polaroid:nth-child(3) { --photo-tilt:3deg; }
+.scene-river .bridge-rail {
+ border-top:7px ridge #798584;border-bottom:5px ridge #4d5350;
+ --rail-bars:repeating-linear-gradient(90deg,transparent 0 34px,#273235 35px 40px,#68706a 41px 42px,transparent 43px 47px);
+ background:var(--rail-bars) left center / 46% 100% no-repeat,var(--rail-bars) right center / 46% 100% no-repeat;
+}
+.scene-river .bridge-lock-post {
+ z-index:4;top:calc(37% + 7px);bottom:calc(33% + 5px);left:49.15%;width:1.45%;height:auto;
+ background:linear-gradient(90deg,#293234,#6e7976 47%,#364044);
+ border-radius:0;box-shadow:1px 0 2px #15191c8c;pointer-events:none;
+}
+.river-picture .heart-lock { z-index:auto;isolation:auto;filter:none; }
+.river-picture .heart-lock:hover,.river-picture .heart-lock:focus { filter:none; }
+.river-picture .heart-lock::before { width:42%;left:28%;z-index:3; }
+.river-picture .heart-lock .heart-plate { z-index:5;filter:drop-shadow(2px 4px 3px #14252c70); }
+.river-picture .heart-lock .lock-initials { z-index:6; }
+.ring-target { fill:none;stroke:#f8ecd5;stroke-width:1.5;stroke-dasharray:2.5 3;opacity:.87; }
+.volume-bars { display:inline-flex;gap:2px;align-items:flex-end;height:13px; }
+.volume-bars i { width:2px;background:currentColor;transform-origin:bottom;animation:volumeHint 2.7s ease-in-out infinite; }
+.volume-bars i:nth-child(1) { height:4px; }
+.volume-bars i:nth-child(2) { height:8px;animation-delay:.12s; }
+.volume-bars i:nth-child(3) { height:12px;animation-delay:.24s; }
+@keyframes volumeHint { 0%,12%{transform:scaleY(.25);opacity:.35} 47%,83%{transform:scaleY(1);opacity:1} }
+@media(prefers-reduced-motion:reduce){ .volume-bars i { animation:none; } }
+.save-album { display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap; }
+.save-album button { display:inline-flex;align-items:center;gap:5px;padding:8px;border:0;background:none;color:#f0d7b3;font:12px Arial,sans-serif; }
+.save-album p { flex-basis:100%;font:11px/1.4 Arial,sans-serif;text-align:center; }
+.scene-love-desk .reason-card.expanded::before { inset:4px; }

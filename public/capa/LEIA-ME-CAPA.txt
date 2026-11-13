@@ -1,0 +1,12 @@
+CAPA PERSONALIZADA
+
+Coloque foto-capa.jpg nesta pasta para a foto da capa.
+Se estiver ausente, a capa usa a foto 01 do álbum.
+Os nomes Magner e Gabriella ficam sobre a composição ilustrada.
+
+Opcional: coloque arte-capa.jpg para substituir o fundo por uma arte sua.
+Use uma imagem vertical, aproximadamente 1000 x 1430 pixels.
+Os nomes e a foto continuam sobrepostos; evite colocá-los na arte.
+
+Ajustes de caminhos: src/data/presentation.js.
+Depois de trocar fotos ou capa, execute npm run generate:og.
