@@ -13,6 +13,7 @@ try {
   await cover.tap()
   await expect(home).toHaveCount(0)
   await expect(active).toHaveAttribute('data-page','1')
+  await expect(page.locator('.page-picker > span')).toHaveText('Assuntos')
   const touch=await page.context().newCDPSession(page)
   const step=width===390?30:46
   async function swipe(x,y,dx,dy=0) {
@@ -24,6 +25,7 @@ try {
   await swipe(width/2,300,0,55)
   await expect(active).toHaveAttribute('data-page','1')
   await swipe(width/2,300,-step)
+  await expect(active).toHaveAttribute('data-page','2')
   await swipe(width/2,300,-step)
   await expect(active).toHaveAttribute('data-page','3')
   await swipe(width/2,300,step)

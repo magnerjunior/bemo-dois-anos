@@ -33,15 +33,18 @@ try {
         window.turnSamples = samples
         const start = performance.now()
         function sample(now) {
-          const leaf = shell.querySelector('.turning-leaf')
+          const faces = [...shell.querySelectorAll('.turning-front, .turning-back')]
+          const visibleFaces = faces.filter(face=>new DOMMatrixReadOnly(getComputedStyle(face).transform).m33 > 0)
           const transform = new DOMMatrixReadOnly(getComputedStyle(shell).transform)
-          const bounds = leaf?.getBoundingClientRect()
           const area = frame.getBoundingClientRect()
           samples.push({
             scaleX:Math.hypot(transform.m11,transform.m12,transform.m13),
             scaleY:Math.hypot(transform.m21,transform.m22,transform.m23),
-            leaf:Boolean(leaf),
-            clipped:bounds ? Math.max(0,area.top-bounds.top,bounds.bottom-area.bottom) : 0,
+            leaf:faces.length === 2,
+            clipped:Math.max(0, ...visibleFaces.map(face=>{
+              const bounds = face.getBoundingClientRect()
+              return Math.max(area.top-bounds.top,bounds.bottom-area.bottom)
+            })),
           })
           if (now-start < 1150) requestAnimationFrame(sample)
         }
@@ -49,7 +52,8 @@ try {
       })
       await trigger.tap()
       if (expectTurningLeaf) {
-        await expect(page.locator('.turning-leaf .page-display')).toHaveCount(2)
+        await expect(page.locator('.page-display[data-page]:is(.turning-front, .turning-back)')).toHaveCount(2)
+        await expect(page.locator('.turning-front')).toHaveCSS('clip-path', 'none')
         await expect(page.locator('.paper-ribbon')).toHaveCount(0)
         await page.waitForTimeout(250)
         await page.screenshot({ path: `artifacts/polish-${name}-turn.png` })

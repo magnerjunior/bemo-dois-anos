@@ -18,7 +18,7 @@
 .lightbox-card{height:auto;display:block;max-height:80dvh}.enlarged-strips{height:72dvh}.lightbox-card>.polaroid{height:72dvh}.lightbox-card .polaroid-photo{background:#f2e7d2}
 @media(prefers-reduced-motion:reduce){.ambient-dust span,.local-stars i{animation:none!important}}
 /* Flexible sheet: sixteen contiguous tangents, front and back per ribbon. */
-.flip-sheet{box-shadow:none!important;transform:none!important;overflow:visible;filter:none;perspective:none}
+
 .paper-ribbon{position:absolute;left:0;top:0;transform-origin:0 50%;transform-style:preserve-3d;will-change:transform;pointer-events:none}
 .ribbon-front,.ribbon-back{position:absolute;inset:0;backface-visibility:hidden;overflow:hidden;background:#eddfc5 url('/textures/paper.jpg') center/cover}
 .ribbon-back{transform:rotateY(180deg);background-size:auto 100%;border-top:1px solid #d0bc99;border-bottom:1px solid #c0a881}
@@ -47,7 +47,7 @@
 .book-cover{width:50%;left:25%;right:auto;container-type:size}
 .spread-open .book-cover{left:0;transition:left .6s ease}
 .book-cover .cover-art{background-size:cover}
-.book-shell .flip-sheet{left:50%;width:50%;right:auto;z-index:9}
+
 .ribbon-front,.ribbon-back{border:0;background:none}.ribbon-back{transform:rotateY(180deg)}
 .ribbon-front .page-display,.ribbon-back .page-display{border-radius:0;box-shadow:none}
 .ribbon-shade{background:#493221}

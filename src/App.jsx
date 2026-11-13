@@ -34,7 +34,6 @@ export default function App({ onBackToWelcome }){
   const bookRef = useRef(null)
   const coverRef = useRef(null)
   const coverGesture = useRef(null)
-  const flipRef = useRef(null)
   const sheetHost = useRef(null)
   const visited = useRef(new Set([1,2]))
   const audioRef = useRef(null)
@@ -82,7 +81,7 @@ export default function App({ onBackToWelcome }){
     const adjacent = Math.abs(next - page) === 1
     const sameSpread = Math.floor((page - 1) / 2) === Math.floor((next - 1) / 2)
     const kind = adjacent ? (sameSpread ? 'pan' : 'flip') : 'jump'
-    setTurn({from:page,to:next,dir:direction,kind})
+    setTurn({from:page,to:next,dir:direction,kind,reduced:reducedMotion()})
     setPage(next)
     if (kind === 'flip' && paperSound.current) {
       const sound = paperSound.current
@@ -92,7 +91,7 @@ export default function App({ onBackToWelcome }){
     }
   },[opened,page,zoomPhoto])
 
-  usePageTurn({turn,flipRef,sheetHost,bookRef,setTurn,lockedRef})
+  usePageTurn({turn,sheetHost,bookRef,setTurn,lockedRef})
 
   const stepPage = useCallback(direction => {
     if (!opened || zoomPhoto) return
@@ -138,7 +137,7 @@ export default function App({ onBackToWelcome }){
       if(e.target instanceof HTMLSelectElement)return
       if(e.key==='Escape'){setZoomPhoto(null);return}
       if(e.target instanceof Element && e.target.closest('button,input,[role=dialog]')&& !['ArrowRight','ArrowLeft'].includes(e.key))return
-      if(!opened || zoomPhoto) return
+      if(!opened || zoomPhoto || lockedRef.current) return
       if(e.key==='ArrowRight'&&!e.repeat)stepPage(1)
       if(e.key==='ArrowLeft'&&!e.repeat)stepPage(-1)
       if(e.key==='Home')turnTo(1)
@@ -186,8 +185,8 @@ export default function App({ onBackToWelcome }){
     swipeRef.current = null
     suppressSwipeClick.current = false
     if (!opened) return
-    if (event.target.closest('button, [data-interactive], input, select, a')) return
-    if (event.pointerType === 'mouse' && !event.target.closest('.polaroid-clickable')) event.preventDefault()
+    if (event.target.closest('input, select, a, .ring-board, .drag-key')) return
+    if (event.pointerType === 'mouse' && !event.target.closest('button, [data-interactive], .polaroid-clickable')) event.preventDefault()
     swipeRef.current = { id:event.pointerId, x:event.clientX, y:event.clientY, time:event.timeStamp }
   }
 
@@ -231,7 +230,10 @@ export default function App({ onBackToWelcome }){
 
   const pair=page%2?page:page-1
   const fromPair=turn?(turn.from%2?turn.from:turn.from-1):pair
-  const visiblePages=turn?.kind==="flip"?[Math.min(pair,fromPair),Math.max(pair,fromPair)+1]:[pair,pair+1]
+  const flipping=turn?.kind==='flip'&&!turn.reduced
+  const turnFront=flipping?Math.min(turn.from,turn.to):null
+  const turnBack=flipping?Math.max(turn.from,turn.to):null
+  const visiblePages=flipping?[fromPair,fromPair+1,pair,pair+1]:[pair,pair+1]
   const player=useMemo(()=>({playing,time,duration,error:audioError,toggle:toggleMusic}),[playing,time,duration,audioError,toggleMusic])
   return <div className="app-shell">
     <BackgroundDust/>
@@ -240,7 +242,7 @@ export default function App({ onBackToWelcome }){
     <div className="background-rose rose-right" aria-hidden="true">✿</div>
     <header className="app-header" inert={zoomPhoto!==null}>
       {!opened&&!opening&&!closing&&<button type="button" className="back-to-welcome" onClick={onBackToWelcome} aria-label="Voltar à declaração" title="Voltar à declaração"><ArrowLeft size={16}/></button>}<div className="brand-label"><span className="brand-star">✧</span><span>BÊ & MÔ</span><i>Dois anos de nós</i></div><div className="header-right">{opened&&musicStarted&&<button className="floating-music" onClick={toggleMusic} aria-label={playing?"Pausar melodia":"Retomar melodia"} title={playing?"Pausar melodia":"Retomar melodia"}>{playing?<Pause size={17}/>:<Play size={17}/>}</button>}<span>15 NOV 2024 — 15 NOV 2026</span><button onClick={toggleFullscreen} aria-label={isFullscreen?'Sair de tela cheia':'Tela cheia'} title="Tela cheia">{isFullscreen?<Minimize2 size={16}/>:<Maximize2 size={16}/>}</button></div></header>
-    <main inert={zoomPhoto!==null} onPointerDown={onSwipeStart} onPointerMove={onSwipeMove} onPointerUp={onSwipeEnd} onPointerCancel={cancelSwipe} onLostPointerCapture={event=>{if(event.target===event.currentTarget)cancelSwipe(event)}} onClickCapture={preventTapAfterSwipe} className={`book-area ${!opened?'book-is-closed':''} ${turn?.kind==='flip'?'camera-wide':''}`}>
+    <main inert={zoomPhoto!==null} onPointerDown={onSwipeStart} onPointerMove={onSwipeMove} onPointerUp={onSwipeEnd} onPointerCancel={cancelSwipe} onLostPointerCapture={event=>{if(event.target===event.currentTarget)cancelSwipe(event)}} onClickCapture={preventTapAfterSwipe} className={`book-area ${!opened?'book-is-closed':''} ${flipping?'camera-wide':''}`}>
       <div className="book-spotlight"/>
       <div className="book-cast-shadow"/>
       <div className={`book-shell ${opened||opening?"spread-open":""}`} ref={bookRef}>
@@ -249,8 +251,13 @@ export default function App({ onBackToWelcome }){
         <div className="paper-window" ref={sheetHost}>
           <div className="paper-fibers" aria-hidden="true"/>
           <div className="book-gutter" aria-hidden="true"/>
-          {(opened||opening)&&[...visited.current].map(n=><div className={`page-display ${n%2?"leaf-left":"leaf-right"}`} data-page={n} data-peek={!turn&&n!==page} key={n} hidden={!visiblePages.includes(n)} inert={n!==page||Boolean(turn)}><AlbumScene n={n} active={opened&&n===page&&!turn} onPhoto={setZoomPhoto} player={n===TOTAL_PAGES?player:null}/></div>)}
-          {turn?.kind==="flip"&&<div className="flip-sheet" ref={flipRef} aria-hidden="true" inert/>}
+          {(opened||opening)&&[...visited.current].map(n=>{
+            const turningSide = n===turnFront?'turning-front flip-sheet':n===turnBack?'turning-back':''
+            return <div className={`page-display ${n%2?'leaf-left':'leaf-right'} ${turningSide}`} data-page={n} data-peek={!turn&&n!==page} key={n} hidden={!visiblePages.includes(n)} inert={n!==page||Boolean(turn)}>
+              <AlbumScene n={n} active={opened&&n===page&&!turn} onPhoto={setZoomPhoto} player={n===TOTAL_PAGES?player:null}/>
+              {turningSide&&<div className="turning-shade" aria-hidden="true"/>}
+            </div>
+          })}
         </div>
         <button ref={coverRef} onPointerDown={startCoverGesture} onPointerUp={endCoverGesture} onPointerCancel={()=>{coverGesture.current=null}} className={`book-cover ${opened?'cover-hidden':''}`} onClick={openBook} disabled={opening||opened||closing} aria-label="Abrir o álbum Bê e Mô"><CoverArt/></button>
         {opened && <div className="book-left-binding" aria-hidden="true"/>}
@@ -262,13 +269,13 @@ export default function App({ onBackToWelcome }){
         <button className="nav-btn" onClick={()=>turnTo(page-1)} disabled={page===1||Boolean(turn)} aria-label="Página anterior"><ChevronLeft size={21}/></button>
         <div className="progress-middle">
           <div className="page-picker">
-            <span className="page-position" aria-hidden="true">Página {String(page).padStart(2,'0')} de {TOTAL_PAGES}</span>
+            <span aria-hidden="true">Assuntos</span>
             <ChevronDown size={12} aria-hidden="true"/>
             <select aria-label="Ir para a página" value={page} disabled={Boolean(turn)} onChange={e=>turnTo(Number(e.target.value))}>
               {PAGE_TITLES.map((title,index)=><option key={title} value={index+1}>{index+1}. {title}</option>)}
             </select>
           </div>
-          <div className="progress-track"><span style={{width:`${page/TOTAL_PAGES*100}%`}}/></div>
+          <div className="progress-track" role="progressbar" aria-label="Progresso do álbum" aria-valuemin={1} aria-valuemax={TOTAL_PAGES} aria-valuenow={page}><span style={{width:`${page/TOTAL_PAGES*100}%`}}/></div>
           <span className="nav-page-name" aria-live={turn?'off':'polite'}>{page===1&&showSwipeHint?'Deslize para folhear':PAGE_TITLES[page-1]}</span>
         </div>
         <button className="nav-btn nav-next" onClick={()=>turnTo(page+1)} disabled={page===TOTAL_PAGES||Boolean(turn)} aria-label="Próxima página"><ChevronRight size={21}/></button>
