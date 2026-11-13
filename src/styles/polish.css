@@ -55,10 +55,10 @@
 .app-header .header-right button:hover{background:transparent;color:#fff1d5}
 .page-picker{
  display:inline-flex;align-items:center;justify-content:center;gap:4px;
- position:relative;min-height:44px;padding:0 14px;border:1px solid #b99d6755;border-radius:8px;
- background:#28272a;color:#f1dfc5;font:600 12px Arial,sans-serif;white-space:nowrap;
+ position:relative;min-height:28px;padding:0 6px;border-radius:4px;
+ color:#e5d5bd;white-space:nowrap;
 }
-.page-picker select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer;font-size:16px}
+.page-picker select{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:pointer}
 .page-picker:focus-within{outline:2px solid #dfb56d;outline-offset:2px}
 .page-picker:has(select:disabled){opacity:.65}
 

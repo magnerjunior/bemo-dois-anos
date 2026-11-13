@@ -269,7 +269,7 @@ export default function App({ onBackToWelcome }){
         <button className="nav-btn" onClick={()=>turnTo(page-1)} disabled={page===1||Boolean(turn)} aria-label="Página anterior"><ChevronLeft size={21}/></button>
         <div className="progress-middle">
           <div className="page-picker">
-            <span aria-hidden="true">Assuntos</span>
+            <span className="page-position" aria-hidden="true">Página {String(page).padStart(2,'0')} de {TOTAL_PAGES}</span>
             <ChevronDown size={12} aria-hidden="true"/>
             <select aria-label="Ir para a página" value={page} disabled={Boolean(turn)} onChange={e=>turnTo(Number(e.target.value))}>
               {PAGE_TITLES.map((title,index)=><option key={title} value={index+1}>{index+1}. {title}</option>)}
